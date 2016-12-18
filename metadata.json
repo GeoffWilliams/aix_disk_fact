@@ -1,0 +1,15 @@
+{
+  "name": "geoffwilliams-aix_disk_fact",
+  "version": "0.1.0",
+  "author": "geoffwilliams",
+  "summary": "populate $disks on AIX *only* as a workaround for PE-18946",
+  "license": "Apache-2.0",
+  "source": "https://github.com/GeoffWilliams/aix_disk_fact",
+  "project_page": "https://github.com/GeoffWilliams/aix_disk_fact",
+  "issues_url": "https://github.com/GeoffWilliams/aix_disk_fact/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ],
+  "data_provider": null
+}
+
