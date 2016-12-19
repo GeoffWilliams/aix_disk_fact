@@ -64,11 +64,11 @@ module PuppetX
     #  }
     # }
     module MountPoints
+      DEVICE    = 0
       SIZE      = 1
       USED      = 2
-      DEVICE    = 0
 
-      def self.mounts()
+      def self.vol_groups()
         raw_cmd = Facter::Core::Execution.exec(
           "lsvg"
         )
@@ -80,29 +80,43 @@ module PuppetX
         v
       end
 
+      def self.mounts(vol_group)
+        raw_cmd = Facter::Core::Execution.exec(
+          "lsvgfs #{vol_group}"
+        )
+        if raw_cmd
+          f = raw_cmd.split(/\s+/)
+        else
+          f = []
+        end
+        f
+      end
+
       def self.mount_info(mount)
         Facter::Core::Execution.exec(
-          "df -g #{mount} | awk '/^Filesystem/ {print $7,$1,$2}'"
+          "df -g #{mount} | awk 'NR>1 {print $7,$1,$2}'"
         ).strip.split(/\s/)
       end
 
       def self.run_fact()
         data = {}
-        mounts().each { |mount|
-          mount_info = mount_info(mount)
-          data[mount] = {
-            'available'       => "NA",
-            'available_bytes' => -1,
-            'capacity'        => "NA",
-            'device'          => mount_info[DEVICE],
-            'filesystem'      => "NA",
-            'options'         => [
-              "NA",
-            ],
-            'size'            => "NA",
-            'size_bytes'      => mount_info[SIZE],
-            'used'            => "NA",
-            'used_bytes'      => mount_info[USED]
+        vol_groups().each{ |vol_group|
+          mounts(vol_group).each { |mount|
+            mount_info = mount_info(mount)
+            data[mount] = {
+              'available'       => "NA",
+              'available_bytes' => -1,
+              'capacity'        => "NA",
+              'device'          => mount_info[DEVICE],
+              'filesystem'      => "NA",
+              'options'         => [
+                "NA",
+              ],
+              'size'            => "NA",
+              'size_bytes'      => mount_info[SIZE],
+              'used'            => "NA",
+              'used_bytes'      => mount_info[USED]
+            }
           }
         }
         data
