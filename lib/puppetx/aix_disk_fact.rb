@@ -32,8 +32,8 @@ module PuppetX
       def self.run_fact()
         data = {}
         disks().each { |device|
-          size_h = 'NA' # human readable disk space required?
           size_b = disk_space(device)
+          size_h = "#{size_b/1024/1024/1024} GiB"
           data[device] = {
             'size'        => size_h,
             'size_bytes'  => size_b,
