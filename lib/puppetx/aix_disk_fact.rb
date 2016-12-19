@@ -37,7 +37,7 @@ module PuppetX
           data[device] = {
             'size'        => size_h,
             'size_bytes'  => size_b,
-            'vendor'      => vendor,
+            'vendor'      => 'NA',
           }
         }
         data
