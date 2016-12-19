@@ -35,11 +35,10 @@ module PuppetX
           size_h = 'NA' # human readable disk space required?
           size_b = disk_space(device)
           data[device] = {
-              'size'        => size_h,
-              'size_bytes'  => size_b,
-              'vendor'      => vendor,
-            }
-          })
+            'size'        => size_h,
+            'size_bytes'  => size_b,
+            'vendor'      => vendor,
+          }
         }
         data
       end
@@ -91,20 +90,18 @@ module PuppetX
         mounts().each { |mount|
           mount_info = mount_info(mount)
           data[mount] = {
-            mount => {
-              'available'       => "NA",
-              'available_bytes' => -1,
-              'capacity'        => "NA",
-              'device'          => mount_info[DEVICE],
-              'filesystem'      => "NA",
-              'options'         => [
-                "NA",
-              ],
-              'size'            => "NA",
-              'size_bytes'      => mount_info[SIZE],
-              'used'            => "NA",
-              'used_bytes'      => mount_info[USED]
-            }
+            'available'       => "NA",
+            'available_bytes' => -1,
+            'capacity'        => "NA",
+            'device'          => mount_info[DEVICE],
+            'filesystem'      => "NA",
+            'options'         => [
+              "NA",
+            ],
+            'size'            => "NA",
+            'size_bytes'      => mount_info[SIZE],
+            'used'            => "NA",
+            'used_bytes'      => mount_info[USED]
           }
         }
         data
