@@ -32,8 +32,9 @@ module PuppetX
       def self.run_fact()
         data = {}
         disks().each { |device|
-          size_b = disk_space(device)
-          size_h = "#{size_b.to_i/1024/1024/1024} GiB"
+          size_m = disk_space(device).to_i
+          size_b = size_m.to_i * 1024 * 1024
+          size_h = "#{size_m.to_i/1024} GiB"
           data[device] = {
             'size'        => size_h,
             'size_bytes'  => size_b,
