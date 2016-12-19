@@ -118,7 +118,7 @@ module PuppetX
             size_g      = size_b /1024.0/1024.0/1024.0
             used_b      = size_b - free_b
             used_g      = used_b /1024.0/1024.0/1024.0
-            capacity    = (used_b /size_b) * 100
+            capacity    = (used_b /size_b.to_f) * 100
 
             data[mount] = {
               'available'       => "#{format("%.2f", free_g)} GiB",
