@@ -18,13 +18,13 @@ end
 Facter.add(:disks) do
   confine :kernel => 'AIX'
   setcode do
-    Facter::Core::Execution.exec(PuppetX::AixDiskFact::Disks.run_fact())
+    PuppetX::AixDiskFact::Disks.run_fact()
   end
 end
 
 Facter.add(:mountpoints) do
   confine :kernel => 'AIX'
   setcode do
-    Facter::Core::Execution.exec(PuppetX::AixDiskFact::MountPoints.run_fact())
+    PuppetX::AixDiskFact::MountPoints.run_fact()
   end
 end
