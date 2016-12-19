@@ -97,7 +97,7 @@ There is no configuration for this module.  Just install it and it will create t
   * lsvg
   * lsvgfs
   * df
-* You *must* remove this module when PE-18946 is addressed in Facter, otherwise you risk shadowing the new built-in entries from Facter with the ones from this module, which are both minimal and slow, due to shelling out to use awk, etc.
+* You *must* remove this module when FACT-1552 is addressed in Facter, otherwise you risk shadowing the new built-in entries from Facter with the ones from this module, which are both minimal and slow, due to shelling out to use awk, etc.
 
 ## Development
 This module is a customer hotfix and as such, is not actively maintained.
