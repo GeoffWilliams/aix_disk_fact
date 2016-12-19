@@ -66,7 +66,9 @@ module PuppetX
     module MountPoints
       DEVICE    = 0
       SIZE      = 1
-      USED      = 2
+      FREE      = 2
+      USED_PC   = 3
+      MOUNTED   = 4
 
       def self.vol_groups()
         raw_cmd = Facter::Core::Execution.exec(
@@ -94,28 +96,39 @@ module PuppetX
 
       def self.mount_info(mount)
         Facter::Core::Execution.exec(
-          "df -g #{mount} | awk 'NR>1 {print $7,$1,$2}'"
+          "df #{mount} | awk 'NR>1 {print $1, $2, $3, $4, $7}'"
         ).strip.split(/\s/)
+      end
+
+      def self.mount_type(mount)
+        Facter::Core::Execution.exec(
+          "lsfs #{mount} | awk 'NR>1 {print $4}'"
+        )
       end
 
       def self.run_fact()
         data = {}
         vol_groups().each{ |vol_group|
           mounts(vol_group).each { |mount|
-            mount_info = mount_info(mount)
+            mount_info  = mount_info(mount)
+            free_b      = mount_info[FREE].to_i * 512
+            size_b      = mount_info[SIZE].to_i * 512
+            used_b      = size_b - free_b
+            capacity    = (used_b /size_b) * 100
+
             data[mount] = {
-              'available'       => "NA",
-              'available_bytes' => -1,
-              'capacity'        => "NA",
+              'available'       => "#{free_b /1024/2/1024/1024} GiB",
+              'available_bytes' => free_b,
+              'capacity'        => "#{format("%.2f", capacity)}",
               'device'          => mount_info[DEVICE],
-              'filesystem'      => "NA",
+              'filesystem'      => mount_type(mount),
               'options'         => [
                 "NA",
               ],
-              'size'            => "NA",
-              'size_bytes'      => mount_info[SIZE],
-              'used'            => "NA",
-              'used_bytes'      => mount_info[USED]
+              'size'            => "#{size_b /1024/1024/1024} GiB",
+              'size_bytes'      => size_b,
+              'used'            => "#{used_b /1024/1024/1024} GiB",
+              'used_bytes'      => used_b
             }
           }
         }
