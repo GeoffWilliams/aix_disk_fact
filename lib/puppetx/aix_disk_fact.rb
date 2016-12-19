@@ -34,8 +34,7 @@ module PuppetX
         disks().each { |device|
           size_h = 'NA' # human readable disk space required?
           size_b = disk_space(device)
-          data.append({
-            device => {
+          data[device] = {
               'size'        => size_h,
               'size_bytes'  => size_b,
               'vendor'      => vendor,
@@ -91,7 +90,7 @@ module PuppetX
         data = {}
         mounts().each { |mount|
           mount_info = mount_info(mount)
-          data.append({
+          data[mount] = {
             mount => {
               'available'       => "NA",
               'available_bytes' => -1,
@@ -106,7 +105,7 @@ module PuppetX
               'used'            => "NA",
               'used_bytes'      => mount_info[USED]
             }
-          })
+          }
         }
         data
       end
