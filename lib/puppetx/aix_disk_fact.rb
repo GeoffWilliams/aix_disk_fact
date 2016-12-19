@@ -117,7 +117,7 @@ module PuppetX
             size_b      = mount_info[SIZE].to_i * 512
             size_g      = size_b /1024.0/1024.0/1024.0
             used_b      = size_b - free_b
-            used_g      = used_g /1024.0/1024.0/1024.0
+            used_g      = used_b /1024.0/1024.0/1024.0
             capacity    = (used_b /size_b) * 100
 
             data[mount] = {
