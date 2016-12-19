@@ -14,7 +14,7 @@ describe Facter::Util::Fact do
       Facter.fact(:osfamily).stubs(:value).returns("RedHat")
     end
     it "does not activate on linux" do
-      expect(Facter.value(:PE_18946)).to eq false
+      expect(Facter.value(:FACT_1552)).to eq false
     end
   end
 
@@ -25,7 +25,7 @@ describe Facter::Util::Fact do
     end
     it "does not activate on solaris" do
       # ? how to pretend to be solaris?
-      expect(Facter.value(:PE_18946)).to eq false
+      expect(Facter.value(:FACT_1552)).to eq false
     end
   end
 
@@ -35,7 +35,7 @@ describe Facter::Util::Fact do
       Facter.fact(:osfamily).stubs(:value).returns("AIX")
     end
     it "activates on AIX" do
-      expect(Facter.value(:PE_18946)).to eq "WARNING: you have loaded a workaround for PE-18946"
+      expect(Facter.value(:FACT_1552)).to eq "WARNING: you have loaded a workaround for FACT-1552"
     end
   end
 end

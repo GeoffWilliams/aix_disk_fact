@@ -11,7 +11,7 @@ describe PuppetX::AixDiskFact::Disks do
       Facter.fact(:osfamily).stubs(:value).returns("RedHat")
     end
     it "does not activate on linux" do
-      expect(Facter.value(:PE_18946)).to eq false
+      expect(Facter.value(:FACT_1552)).to eq false
     end
   end
 
@@ -21,7 +21,7 @@ describe PuppetX::AixDiskFact::Disks do
       Facter.fact(:osfamily).stubs(:value).returns("Solaris")
     end
     it "does not activate on solaris" do
-      expect(Facter.value(:PE_18946)).to eq false
+      expect(Facter.value(:FACT_1552)).to eq false
     end
   end
 
@@ -31,7 +31,7 @@ describe PuppetX::AixDiskFact::Disks do
       Facter.fact(:osfamily).stubs(:value).returns("AIX")
     end
     it "activates on AIX" do
-      expect(Facter.value(:PE_18946)).to eq "WARNING: you have loaded a workaround for PE-18946"
+      expect(Facter.value(:FACT_1552)).to eq "WARNING: you have loaded a workaround for FACT-1552"
     end
   end
 

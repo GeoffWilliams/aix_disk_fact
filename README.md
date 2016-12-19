@@ -14,7 +14,7 @@
 
 ## Description
 
-This module provides support for minimal `disks` and `mountpoints` facts on the AIX platform in-lieu of built-in support in Facter (PE-18946).
+This module provides support for minimal `disks` and `mountpoints` facts on the AIX platform in-lieu of built-in support in Facter (FACT-1552/PE-18946).
 
 ## Setup
 
@@ -24,13 +24,13 @@ Creates the facts:
 
 * `disks`
 * `mountpoints`
-* `pe_18946`
+* `fact_1552`
 
-The `disks` and `mountpoints` facts will only be modified on AIX.  The `PE_18948` fact indicates the presence and applicability of this module itself..
+The `disks` and `mountpoints` facts will only be modified on AIX.  The `FACT-1552` fact indicates the presence and applicability of this module itself..
 
 To enable the above facts, this module needs to be present in the environment of all AIX nodes connected to Puppet.
 
-In the future, its anticipated that PE-18946 will address these requirements natively and at such time, you should remove this module from your systems.
+In the future, its anticipated that FACT-1552 will address these requirements natively and at such time, you should remove this module from your systems.
 
 ## Usage
 
@@ -43,10 +43,49 @@ There is no configuration for this module.  Just install it and it will create t
   * Information that is normally available in the built-in `disks` fact
 * `mountpoints`
   * Information that is normally available in the built-in `mountpoints` fact
-* `pe_18946`
+* `fact_1552`
   * The presence of this fact means you can be sure that this module is installed on your puppet master
   * The fact value should be `false` on all systems that are *not* AIX
   * On AIX the fact value is an informative message
+
+### Sample output
+
+#### disks fact
+
+```
+"disks": {
+  "hdisk0": {
+    "size": "30.00 GiB",
+    "size_bytes": 32212254720,
+    "vendor": "NA"
+  }
+},
+```
+
+* Obtained using `lspv` and `getconf`
+* Vendor field is hardcoded as 'NA'
+
+#### mountpoints fact
+```
+"mountpoints": {
+  "/": {
+    "available": "0.19 GiB",
+    "available_bytes": 203530240,
+    "capacity": "81.04%",
+    "device": "/dev/hd4",
+    "filesystem": "jfs2",
+    "options": [
+      "NA"
+    ],
+    "size": "1.00 GiB",
+    "size_bytes": 1073741824,
+    "used": "0.81 GiB",
+    "used_bytes": 870211584
+  },
+```
+
+* Obtained using `lsvg`, `lsvgfs` and `df`
+* All fields except `options` are populated
 
 ## Limitations
 
@@ -56,6 +95,7 @@ There is no configuration for this module.  Just install it and it will create t
   * awk
   * getconf
   * lsvg
+  * lsvgfs
   * df
 * You *must* remove this module when PE-18946 is addressed in Facter, otherwise you risk shadowing the new built-in entries from Facter with the ones from this module, which are both minimal and slow, due to shelling out to use awk, etc.
 
