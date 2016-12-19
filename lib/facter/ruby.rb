@@ -15,16 +15,20 @@ Facter.add(:FACT_1552) do
   end
 end
 
-Facter.add(:disks) do
-  confine :kernel => 'AIX'
-  setcode do
-    PuppetX::AixDiskFact::Disks.run_fact()
+# Thanks Zack!
+# http://wallcity.org/blog/2013/01/21/confine-a-dynamic-fact-using-another-fact/
+if Facter.value(:kernel) == 'AIX'
+  Facter.add(:disks) do
+    confine :kernel => 'AIX'
+    setcode do
+      PuppetX::AixDiskFact::Disks.run_fact()
+    end
   end
-end
 
-Facter.add(:mountpoints) do
-  confine :kernel => 'AIX'
-  setcode do
-    PuppetX::AixDiskFact::MountPoints.run_fact()
+  Facter.add(:mountpoints) do
+    confine :kernel => 'AIX'
+    setcode do
+      PuppetX::AixDiskFact::MountPoints.run_fact()
+    end
   end
 end
