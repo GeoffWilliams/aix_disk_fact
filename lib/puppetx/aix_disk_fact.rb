@@ -33,10 +33,11 @@ module PuppetX
         data = {}
         disks().each { |device|
           size_m = disk_space(device).to_i
-          size_b = size_m.to_i * 1024 * 1024
-          size_h = "#{size_m.to_i/1024} GiB"
+          size_b = size_m * 1024 * 1024
+          size_g = size_m / 1024.0
+
           data[device] = {
-            'size'        => size_h,
+            'size'        => "#{format("%.2f", size_g)} GiB",
             'size_bytes'  => size_b,
             'vendor'      => 'NA',
           }
@@ -112,22 +113,25 @@ module PuppetX
           mounts(vol_group).each { |mount|
             mount_info  = mount_info(mount)
             free_b      = mount_info[FREE].to_i * 512
+            free_g      = free_b /1024.0/1024.0/1024.0
             size_b      = mount_info[SIZE].to_i * 512
+            size_g      = size_b /1024.0/1024.0/1024.0
             used_b      = size_b - free_b
+            used_g      = used_g /1024.0/1024.0/1024.0
             capacity    = (used_b /size_b) * 100
 
             data[mount] = {
-              'available'       => "#{free_b /1024/2/1024/1024} GiB",
+              'available'       => "#{format("%.2f", free_g)} GiB",
               'available_bytes' => free_b,
-              'capacity'        => "#{format("%.2f", capacity)}",
+              'capacity'        => "#{format("%.2f", capacity)}%",
               'device'          => mount_info[DEVICE],
               'filesystem'      => mount_type(mount),
               'options'         => [
                 "NA",
               ],
-              'size'            => "#{size_b /1024/1024/1024} GiB",
+              'size'            => "#{format("%.2f", size_g)} GiB",
               'size_bytes'      => size_b,
-              'used'            => "#{used_b /1024/1024/1024} GiB",
+              'used'            => "#{format("%.2f", used_g)} GiB",
               'used_bytes'      => used_b
             }
           }
