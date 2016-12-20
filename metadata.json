@@ -1,6 +1,6 @@
 {
   "name": "geoffwilliams-aix_disk_fact",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "author": "geoffwilliams",
   "summary": "populate $disks on AIX *only* as a workaround for PE-18946",
   "license": "Apache-2.0",

@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/GeoffWilliams/aix_disk_fact.svg?branch=master)](https://travis-ci.org/GeoffWilliams/aix_disk_fact)
 # aix_disk_fact
 
 #### Table of Contents
